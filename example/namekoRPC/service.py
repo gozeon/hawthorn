@@ -7,8 +7,8 @@ class Mail(object):
 
     @rpc
     def send(self, to, subject, contents):
-        yag = yagmail.SMTP(user='liqiushuai@126.com',
-                           password='ccc',
+        yag = yagmail.SMTP(user='',
+                           password='',
                            host='smtp.126.com',
                            port=587)
         # yag.send(to=to.encode('utf-8'),

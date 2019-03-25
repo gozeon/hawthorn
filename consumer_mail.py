@@ -25,8 +25,8 @@ def render_template(template, **kwargs):
 
 
 def callback(ch, method, properties, body):
-    yag = yagmail.SMTP(user='monitor-fe@jiedaibao.com',
-                       password='L8n2@A#reT3mN54YQfe',
+    yag = yagmail.SMTP(user='',
+                       password='',
                        host='smtp.exmail.qq.com',
                        port=587,
                        smtp_ssl=False)
