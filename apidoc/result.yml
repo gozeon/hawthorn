@@ -1,0 +1,80 @@
+存储结果
+选择 hawthorn.built 交换机发送到消息队列，进行数据存储
+---
+parameters:
+- name: body
+  in: body
+  required: true
+  description: 这里的 mail 可为空字符串
+  schema:
+    $ref: "#/definitions/Task"
+
+responses:
+  201:
+    description: success
+    schema:
+      $ref: "#/definitions/Task"
+
+definitions:
+  Task:
+    type: object
+    description: 完整的 task 信息
+    required:
+    - uuid
+    - git_url
+    - git_branch
+    - npm_registry
+    - docker_image
+    - mail
+    - status
+    - jenkins_job_name
+    - jenkins_build_number
+    - jenkins_build_url
+    - jenkins_build_result
+    - dist_url
+    properties:
+      uuid:
+        type: "string"
+        example: 08ff9444-2f40-4f2d-9179-4f3cb751a2de
+      git_url:
+        type: "string"
+        example: git@git.jdb-dev.com:pluto/h5_template.git
+      git_branch:
+        type: "string"
+        default: master
+        example: master
+      npm_registry:
+        type: "string"
+        default: https://registry.npm.taobao.org/
+        example: https://registry.npm.taobao.org/
+      docker_image:
+        type: "string"
+        default: node
+        example: node
+      mail:
+        type: "string"
+        example: liqs@jiedaibao.com
+      status:
+        type: "string"
+        enum:
+        - activate
+        - building
+        - success
+        - fail
+        default: activate
+        example: activate
+      jenkins_job_name:
+        type: "string"
+        example: pluto-h5_template
+      jenkins_build_number:
+        type: "string"
+        example: 10
+      jenkins_build_url:
+        type: "string"
+        example: http://127.0.0.1:8080/job/pluto-h5_template/10/
+      jenkins_build_result:
+        type: "string"
+        example: success
+      dist_url:
+        type: "string"
+        example: http://100.73.37.4/uploads/6917d52515ef83b10ac5f76ad9e01d5e52a9c08a.tar.gz

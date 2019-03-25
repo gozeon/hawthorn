@@ -1,0 +1,76 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.29">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.60">
+    <script>def api_upload_url = &quot;API_UPLOAD_URL&quot;
+def api_result_url = &quot;API_RESULT_URL&quot;
+def base_download_url = &quot;BASE_DOWNLOAD_URL&quot;
+def uuid = &quot;UUID&quot;
+def git_url = &quot;GIT_URL&quot;
+def git_branch = &quot;GIT_BRANCH&quot;
+def docker_image = &quot;DOCKER_IMAGE&quot;
+def npm_registry = &quot;NPM_REGISTRY&quot;
+def mail = &quot;MAIL&quot;
+def result = [&apos;success&apos;, &apos;fail&apos;]
+
+
+node {
+
+    try {
+        stage(&apos;git&apos;) {
+            git branch: &quot;${git_branch}&quot;, url: &quot;${git_url}&quot;
+        }
+
+        def commit  = sh(returnStdout: true, script: &quot;git rev-parse HEAD&quot;).trim()
+        def tar_name = &quot;${commit}.tar.gz&quot;
+
+        docker.image(&quot;${docker_image}&quot;).inside {
+            withEnv([
+                &apos;npm_config_cache=npm-cache&apos;,
+                &apos;HOME=.&apos;,
+            ]) {
+                stage(&apos;install&apos;) {
+                    sh &apos;npm install --registy=${npm_registry}&apos;
+                }
+
+                stage(&apos;build&apos;) {
+                    sh &apos;npm run build&apos;
+                }
+            }
+        }
+
+        stage(&apos;tar&apos;) {
+            sh &quot;&quot;&quot;
+             tar -zcvf ${tar_name} dist
+            &quot;&quot;&quot;
+            sh &quot;&quot;&quot;
+            curl -F uploadfile=@${tar_name} ${api_upload_url}
+            &quot;&quot;&quot;
+        }
+
+        stage(&apos;curl&apos;) {
+            sh &quot;&quot;&quot;
+            curl --header Content-Type:application/json --request POST --data &apos;{&quot;uuid&quot;: &quot;${uuid}&quot;,&quot;docker_image&quot;: &quot;${docker_image}&quot;,&quot;status&quot;: &quot;${result[0]}&quot;,&quot;npm_registry&quot;: &quot;${npm_registry}&quot;,&quot;mail&quot;: &quot;${mail}&quot;, &quot;git_url&quot;: &quot;${git_url}&quot;, &quot;git_branch&quot;: &quot;${git_branch}&quot;, &quot;dist_url&quot;: &quot;${base_download_url}${tar_name}&quot;,&quot;jenkins_build_number&quot;:${currentBuild.number},&quot;jenkins_build_url&quot;:&quot;$BUILD_URL&quot;, &quot;jenkins_job_name&quot;: &quot;$JOB_NAME&quot;, &quot;jenkins_build_result&quot;: &quot;${result[0]}&quot;}&apos; ${api_result_url}
+            &quot;&quot;&quot;
+        }
+    }
+
+    catch (exc) {
+        sh &quot;&quot;&quot;
+        curl --header Content-Type:application/json --request POST --data &apos;{&quot;uuid&quot;: &quot;${uuid}&quot;,&quot;docker_image&quot;: &quot;${docker_image}&quot;,&quot;status&quot;: &quot;${result[1]}&quot;,&quot;npm_registry&quot;: &quot;${npm_registry}&quot;,&quot;mail&quot;: &quot;${mail}&quot;, &quot;git_url&quot;: &quot;${git_url}&quot;, &quot;git_branch&quot;: &quot;${git_branch}&quot;,&quot;dist_url&quot;: &quot;&quot;,&quot;jenkins_build_number&quot;:${currentBuild.number},&quot;jenkins_build_url&quot;:&quot;$BUILD_URL&quot;, &quot;jenkins_job_name&quot;: &quot;$JOB_NAME&quot;, &quot;jenkins_build_result&quot;:&quot;${result[1]}&quot;}&apos; ${api_result_url}
+        &quot;&quot;&quot;
+        currentBuild.result = &quot;FAILURE&quot;
+    }
+
+    finally {
+    }
+
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

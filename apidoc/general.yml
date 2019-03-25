@@ -1,0 +1,77 @@
+新建编译任务
+使用正常模式创建编译任务，后台生成一个uuid，选择 hawthorn.build 交换机发送到消息队列，
+---
+parameters:
+- name: body
+  in: body
+  required: true
+  schema:
+    required:
+    - git_url
+    properties:
+      git_url:
+        type: "string"
+        example: git@git.jdb-dev.com:pluto/h5_template.git
+      git_branch:
+        type: "string"
+        default: master
+        example: master
+      npm_registry:
+        type: "string"
+        default: https://registry.npm.taobao.org/
+        example: https://registry.npm.taobao.org/
+      docker_image:
+        type: "string"
+        default: node
+        example: node
+      mail:
+        type: "string"
+        example: liqs@jiedaibao.com
+
+responses:
+  200:
+    description: success (注：jenkins 信息为空值，statu 状态为 activate，新增uuid)
+    schema:
+      properties:
+        uuid:
+          type: "string"
+          example: 08ff9444-2f40-4f2d-9179-4f3cb751a2de
+        git_url:
+          type: "string"
+          example: git@git.jdb-dev.com:pluto/h5_template.git
+        git_branch:
+          type: "string"
+          default: master
+          example: master
+        npm_registry:
+          type: "string"
+          default: https://registry.npm.taobao.org/
+          example: https://registry.npm.taobao.org/
+        docker_image:
+          type: "string"
+          default: node
+          example: node
+        mail:
+          type: "string"
+          example: liqs@jiedaibao.com
+        status:
+          type: "string"
+          enum:
+          - activate
+          - building
+          - success
+          - fail
+          default: activate
+          example: activate
+        jenkins_job_name:
+          type: "string"
+        jenkins_build_number:
+          type: "string"
+        jenkins_build_url:
+          type: "string"
+        jenkins_build_result:
+          type: "string"
+        dist_url:
+          type: "string"
+
+
