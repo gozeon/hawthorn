@@ -1,8 +1,9 @@
 # Hawthorn   <small>1.0.0.alpha-1</small>
 
-<!-- > 一个神奇的前端编译服务 -->
+> 这是一个可扩展、稳定、多模式的编译服务.
 
-- 编译服务
+- goze
 
-<!-- [GitHub](https://github.com/gozeon/) -->
-[Get Started](#Hawthorn)
+
+[Get Starter](get-starter.md)
+[Documents](#Hawthorn)
