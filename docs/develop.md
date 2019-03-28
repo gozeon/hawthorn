@@ -58,6 +58,7 @@ vim +12 consumer_jenkins.py
 ```bash
 vim +9 consumer.py
 vim +7 producer.py
+vim +15 server.py
 ```
 
 ### mysql配置
@@ -90,4 +91,10 @@ FLASK_APP=server.py FLASK_ENV=development FLASK_DEBUG=1 flask run -h 0.0.0.0
 
 ```bash
 python consumer.py
+```
+
+### rpc service
+
+```bash
+nameko run rpc_service --broker amqp://guest:guest@localhost
 ```

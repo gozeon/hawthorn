@@ -1,0 +1,54 @@
+rpc 模式编译任务
+使用 rabbitMQ 的rpc模式进行编译
+---
+parameters:
+- name: body
+  in: body
+  required: true
+  schema:
+    required:
+    - git_url
+    properties:
+      git_url:
+        type: string
+        required: true
+        example: git@git.jdb-dev.com:pluto/h5_template.git
+      docker_image:
+        type: string
+        default: node
+        example: node
+      npm_registry:
+        type: string
+        default: https://registry.npm.taobao.org/
+        example: https://registry.npm.taobao.org/
+      api_upload_url:
+        type: string
+        default: http://100.73.37.4:8081/api/files/upload
+        example: http://100.73.37.4:8081/api/files/upload
+responses:
+  200:
+    description: success
+    schema:
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - fail
+          example: success
+        filename:
+          type: string
+          example: 6917d52515ef83b10ac5f76ad9e01d5e52a9c08a.tar.gz
+        url:
+          type: string
+          example: http://100.73.37.4/uploads/6917d52515ef83b10ac5f76ad9e01d5e52a9c08a.tar.gz
+  500:
+    description: system error
+    schema:
+      properties:
+        message:
+          type: string
+          example: 请联系管理员
+        info:
+          type: string
+          example: Unknown service `hawthorn`

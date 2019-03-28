@@ -11,12 +11,13 @@ class TaskService(object):
     def build(self,
               environment,
               docker_image='node',
-              bash_file='http://gist.test.jiedaibao.com/paste/94/raw/'
+              bash_file='http://gist.test.jiedaibao.com/paste/98/raw/'
               ):
         """
+        TODO: 可选参数 API_UPLOAD_URL，bash_file，NPM_OPTIONS
         environment={
-            "GIR_URL": "git@git.jdb-dev.com:pluto/h5_template.git",
-            "GIR_BRANCH": "master",
+            "GIT_URL": "git@git.jdb-dev.com:pluto/h5_template.git",
+            "GIT_BRANCH": "master",
             "NPM_REGISTRY": "https://registry.npm.taobao.org/",
             "API_UPLOAD_URL": "http://100.73.37.4:8081/api/files/upload",
         },
