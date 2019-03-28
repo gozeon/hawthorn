@@ -264,3 +264,17 @@ def render_template(template, **kwargs):
 
 html = render_template(os.path.join(ROOT_DIR, 'template.html'), message={"a": 1, "b": 2})
 print(html)
+
+
+def a(**kwargs):
+    print(**kwargs)
+
+
+b = {"c": 2, "b": 1, "a": 0}
+
+
+try:
+    aaaz = json.loads('{"c": 2, "b": 1, "a": 0}')
+except json.JSONDecodeError:
+    aaaz = 'as sad sad'
+print(aaaz)
