@@ -272,9 +272,32 @@ def a(**kwargs):
 
 b = {"c": 2, "b": 1, "a": 0}
 
-
 try:
     aaaz = json.loads('{"c": 2, "b": 1, "a": 0}')
 except json.JSONDecodeError:
     aaaz = 'as sad sad'
 print(aaaz)
+
+schema = {
+    'git_url': {'type': 'string', 'required': True, },
+    'git_branch': {'type': 'string', 'default': 'master', },
+    'docker_image': {'type': 'string', 'default': 'node', },
+    'npm_registry': {'type': 'string', 'default': 'https://registry.npm.taobao.org/', },
+}
+
+document = {
+    # "git_url": "asd",
+    "git_branch": "asd",
+    "docker_image": None,
+    # "npm_registry": "asd",
+}
+
+print(v.validate(document, schema))
+print(v.normalized(document, schema))
+
+
+def lower_dict(d):
+    return dict((k.upper(), v) for k, v in d.items())
+
+
+print(lower_dict(v.normalized(document, schema)))

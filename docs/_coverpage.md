@@ -1,4 +1,4 @@
-# Hawthorn   <small>1.0.0.alpha-1</small>
+# Hawthorn   <small>1.0.0.alpha-2</small>
 
 > 这是一个可扩展、稳定、多模式的编译服务.
 
