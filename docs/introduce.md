@@ -14,7 +14,7 @@ Hawthorn 提供两种模式，分别是 **一般模式** 和 **RPC模式**
 
 ### RPC模式
 
-*待完善*
+![general](_images/hawthorn.rpc.svg)
 
 ## 特点
 
