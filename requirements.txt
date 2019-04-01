@@ -30,7 +30,7 @@ mistune==0.8.4
 mock==2.0.0
 monotonic==1.5
 multi-key-dict==2.0.3
-mysql-connector==2.1.6
+mysql-connector-python==8.0.15
 nameko==2.11.0
 path.py==11.5.0
 pbr==5.1.3
