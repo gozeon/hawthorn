@@ -47,36 +47,43 @@ docker run --rm -p 15672:15672 -p 5672:5672 rabbitmq:3-management
 
 ## 配置
 
-### jenkins配置
+see `config.ini`
 
-```bash
-vim +12 consumer_jenkins.py
-```
+```ini
+[COMMON]
+ip =
 
-### rabbitMQ配置
+[AMPQ]
+host = localhost
+user = guest
+password = guest
+url = amqp://${AMPQ:user}:${AMPQ:password}@${AMPQ:host}
 
-```bash
-vim +9 consumer.py
-vim +7 producer.py
-vim +15 server.py
-```
+[JENKINS]
+url = http://localhost:8080
+user = admin
+password = qwer1234
 
-### mysql配置
+[API]
+upload = http://100.73.37.4:8081/api/files/upload
+download = http://100.73.37.4/uploads/
+result = http://${COMMON:ip}:5000/result
 
-```bash
-vim +4 consumer_result.py
-```
+[MYSQL]
+host = localhost
+user = ddd
+password = qwer1234
+port = 8889
+database = test_db
 
-### smtp配置
+[SMTP]
+user =
+password =
+host = smtp.exmail.qq.com
+port = 587
+smtp_ssl = False
 
-```bash
-vim +28 consumer_mail.py
-```
 
-### 其他
-
-```bash
-vim +12 consumer_jenkins.py
 ```
 
 ## 运行
