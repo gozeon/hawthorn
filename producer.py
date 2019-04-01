@@ -1,11 +1,15 @@
 import pika
+from configparser import ConfigParser, ExtendedInterpolation
+
 import json
 import scope
 
+config = ConfigParser(interpolation=ExtendedInterpolation())
+config.read('config.ini')
 # credentials = pika.PlainCredentials('admin', 'admin')
 # connection = pika.BlockingConnection(pika.ConnectionParameters('100.73.48.248', '5672', '/', credentials))
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
+    pika.ConnectionParameters(host=config['AMPQ']['host']))
 
 channel = connection.channel()
 

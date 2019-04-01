@@ -2,7 +2,10 @@ import yagmail
 import json
 import os
 import sys
+from configparser import ConfigParser, ExtendedInterpolation
 
+config = ConfigParser(interpolation=ExtendedInterpolation())
+config.read('config.ini')
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -25,11 +28,11 @@ def render_template(template, **kwargs):
 
 
 def callback(ch, method, properties, body):
-    yag = yagmail.SMTP(user='',
-                       password='',
-                       host='smtp.exmail.qq.com',
-                       port=587,
-                       smtp_ssl=False)
+    yag = yagmail.SMTP(user=config['SMTP']['user'],
+                       password=config['SMTP']['password'],
+                       host=config['SMTP']['host'],
+                       port=int(config['SMTP']['port']),
+                       smtp_ssl=config['SMTP'].getboolean('smtp_ssl'))
     data = json.loads(body)
     # exchange_name = method.exchange
     if 'mail' in data and data['mail']:

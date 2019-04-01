@@ -1,12 +1,16 @@
 import json
 import mysql.connector
+from configparser import ConfigParser, ExtendedInterpolation
+
+config = ConfigParser(interpolation=ExtendedInterpolation())
+config.read('config.ini')
 
 mydb = mysql.connector.connect(
-    host='localhost',
-    user='ddd',
-    passwd='qwer1234',
-    port='8889',
-    database='test_db',
+    host=config['MYSQL']['host'],
+    user=config['MYSQL']['user'],
+    passwd=config['MYSQL']['password'],
+    port=config['MYSQL']['port'],
+    database=config['MYSQL']['database'],
 )
 
 mycursor = mydb.cursor()
@@ -32,7 +36,7 @@ create table if not exists task
 	constraint task_uuid_uindex
 		unique (uuid)
 );
-""",)
+""", )
 
 
 def callback(ch, method, properties, body):
@@ -91,9 +95,9 @@ def callback(ch, method, properties, body):
         )
     )
     mydb.commit()
-#     print(method.exchange)
-#     # print(properties)
-#     print(" [x] %r" % body)
-#     print(method.delivery_tag)
+    #     print(method.exchange)
+    #     # print(properties)
+    #     print(" [x] %r" % body)
+    #     print(method.delivery_tag)
     # 消息确认，否则重启文件，会把原先的记录重新开启，no_ack 也是这样
     ch.basic_ack(delivery_tag=method.delivery_tag)

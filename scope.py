@@ -1,7 +1,9 @@
 SCOPE_NAME = "hawthorn"
 
+
 def create_name(name):
-  return '{scope}.{name}'.format(scope=SCOPE_NAME, name=name)
+    return '{scope}.{name}'.format(scope=SCOPE_NAME, name=name)
+
 
 queue_dict = {
     "log": create_name('log'),

@@ -3,15 +3,19 @@ import os
 import json
 import jenkins
 import xml.etree.ElementTree as ET
+from configparser import ConfigParser, ExtendedInterpolation
+
+config = ConfigParser(interpolation=ExtendedInterpolation())
+config.read('config.ini')
 
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
-API_UPLOAD_URL = "http://100.73.37.4:8081/api/files/upload"
-API_RESULT_URL = "http://100.66.151.203:5000/result"
-BASE_DOWNLOAD_URL = "http://100.73.37.4/uploads/"
+API_UPLOAD_URL = config['API']['upload']
+API_RESULT_URL = config['API']['result']
+BASE_DOWNLOAD_URL = config['API']['download']
 XML_TEMPLATE_FILE = 'template.xml'
-server = jenkins.Jenkins('http://localhost:8080',
-                         username='admin',
-                         password='qiankun.230')
+server = jenkins.Jenkins(config['JENKINS']['url'],
+                         username=config['JENKINS']['user'],
+                         password=config['JENKINS']['password'])
 
 
 def create_job_name(git_url):

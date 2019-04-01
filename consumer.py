@@ -1,12 +1,16 @@
 import pika
-import sys
+from configparser import ConfigParser, ExtendedInterpolation
+
 import scope
 import consumer_log
 import consumer_mail
 import consumer_result
 import consumer_jenkins
 
-parameters = pika.ConnectionParameters(host='localhost')
+config = ConfigParser(interpolation=ExtendedInterpolation())
+config.read('config.ini')
+
+parameters = pika.ConnectionParameters(host=config['AMPQ']['host'])
 connection = pika.BlockingConnection(parameters)
 
 channel = connection.channel()

@@ -33,7 +33,9 @@ node {
                 &apos;HOME=.&apos;,
             ]) {
                 stage(&apos;install&apos;) {
-                    sh &apos;npm install --registy=${npm_registry}&apos;
+                    sh &quot;&quot;&quot;
+                      npm install --registy=${npm_registry}
+                    &quot;&quot;&quot;
                 }
 
                 stage(&apos;build&apos;) {

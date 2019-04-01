@@ -3,16 +3,18 @@ from flask import Flask, request, jsonify
 from flasgger import Swagger, swag_from
 from cerberus import Validator
 from nameko.standalone.rpc import ClusterRpcProxy
+from configparser import ConfigParser, ExtendedInterpolation
 
 import producer
 import scope
 import utils
 
+config = ConfigParser(interpolation=ExtendedInterpolation())
+config.read('config.ini')
 v = Validator()
-
 app = Flask(__name__)
 Swagger(app)
-CONFIG = {'AMQP_URI': "amqp://guest:guest@localhost"}
+CONFIG = {'AMQP_URI': config['AMPQ']['url']}
 
 
 @app.route('/', methods=['GET'])
