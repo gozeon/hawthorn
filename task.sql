@@ -1,6 +1,8 @@
+create database if not exists hawthorn;
+use hawthorn;
 create table if not exists task
 (
-  id                   int                                              not null,
+  id                   int auto_increment,
   uuid                 char(36)                                         null,
   git_url              varchar(2083)                                    null,
   git_branch           varchar(255)                                     null,
