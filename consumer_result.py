@@ -94,6 +94,7 @@ def callback(ch, method, properties, body):
             data['dist_url'] or None,
         )
     )
+    # print(mycursor.statement) # sql 完整语句
     mydb.commit()
     #     print(method.exchange)
     #     # print(properties)

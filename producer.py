@@ -8,8 +8,21 @@ config = ConfigParser(interpolation=ExtendedInterpolation())
 config.read('config.ini')
 # credentials = pika.PlainCredentials('admin', 'admin')
 # connection = pika.BlockingConnection(pika.ConnectionParameters('100.73.48.248', '5672', '/', credentials))
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host=config['AMPQ']['host']))
+# connection = pika.BlockingConnection(
+#     pika.ConnectionParameters(host=config['AMPQ']['host']))
+if config['AMPQ'].getboolean('credentials'):
+    credentials = pika.PlainCredentials(
+        config['AMPQ']['user'],
+        config['AMPQ']['password'])
+    connection = pika.BlockingConnection(pika.ConnectionParameters(
+        host=config['AMPQ']['host'],
+        port=config['AMPQ']['port'],
+        virtual_host=config['AMPQ']['path'],
+        credentials=credentials,
+        heartbeat=0,))
+else:
+    parameters = pika.ConnectionParameters(host=config['AMPQ']['host'])
+    connection = pika.BlockingConnection(parameters)
 
 channel = connection.channel()
 

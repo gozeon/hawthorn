@@ -10,8 +10,19 @@ import consumer_jenkins
 config = ConfigParser(interpolation=ExtendedInterpolation())
 config.read('config.ini')
 
-parameters = pika.ConnectionParameters(host=config['AMPQ']['host'])
-connection = pika.BlockingConnection(parameters)
+if config['AMPQ'].getboolean('credentials'):
+    credentials = pika.PlainCredentials(
+        config['AMPQ']['user'],
+        config['AMPQ']['password'])
+    connection = pika.BlockingConnection(pika.ConnectionParameters(
+        host=config['AMPQ']['host'],
+        port=config['AMPQ']['port'],
+        virtual_host=config['AMPQ']['path'],
+        credentials=credentials,
+        heartbeat=0,))
+else:
+    parameters = pika.ConnectionParameters(host=config['AMPQ']['host'])
+    connection = pika.BlockingConnection(parameters)
 
 channel = connection.channel()
 
