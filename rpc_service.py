@@ -11,7 +11,7 @@ class TaskService(object):
     def build(self,
               environment,
               docker_image='node',
-              bash_file='http://gist.test.jiedaibao.com/paste/98/raw/'
+              bash_file='http://gist.test.x.com/paste/98/raw/'
               ):
         """
         TODO: 可选参数 API_UPLOAD_URL，bash_file，NPM_OPTIONS

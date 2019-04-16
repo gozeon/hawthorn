@@ -53,7 +53,7 @@ definitions:
         example: node
       mail:
         type: "string"
-        example: liqs@jiedaibao.com
+        example: liqs@x.com
       status:
         type: "string"
         enum:

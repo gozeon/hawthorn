@@ -11,7 +11,7 @@ container = client.containers.run('node',
                                       "NPM_REGISTRY": "https://registry.npm.taobao.org/",
                                       "API_UPLOAD_URL": "http://100.73.37.4:8081/api/files/upload",
                                   },
-                                  command='/bin/bash -c "curl -sSl http://gist.test.jiedaibao.com/paste/94/raw/ | sh"',
+                                  command='/bin/bash -c "curl -sSl http://gist.test.x.com/paste/94/raw/ | sh"',
                                   remove=True)
 stdout = container.decode('utf-8')
 print(stdout)
