@@ -41,7 +41,7 @@ pycodestyle==2.5.0
 pynliner==0.8.0
 pyrsistent==0.14.11
 python-jenkins==1.4.0
-PyYAML==3.13
+PyYAML==5.4
 requests==2.21.0
 six==1.12.0
 soupsieve==1.8
